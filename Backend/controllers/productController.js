@@ -31,3 +31,23 @@ exports.getAllProducts = async (req, res) => {
     });
   }
 };
+
+// Update Product -- Admit only admin
+exports.updateProduct = async (req, res, next) => {
+    try {
+        let product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        res.status(200).json({
+            success: true,
+            product,
+        });
+    } catch (err) {
+        res.status(400).json({
+        success: false,
+        message: err.message,
+        });
+    }
+};
