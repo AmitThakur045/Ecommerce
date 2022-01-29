@@ -32,6 +32,31 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// Get Product Details
+exports.getProductDetails = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if(!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+    
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 // Update Product -- Admit only admin
 exports.updateProduct = async (req, res, next) => {
     try {
