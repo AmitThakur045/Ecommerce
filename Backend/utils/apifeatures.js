@@ -30,6 +30,17 @@ class ApiFeatures {
     this.query = this.query.find(JSON.parse(queryStr));
     return this;
   }
+
+    pagination(resultPerPage) {
+        // type conversion to number
+        const page = Number(this.queryStr.page) || 1;
+        const limit = this.queryStr.limit * 1 || resultPerPage;
+        // skip is the number of documents to skip
+        const skip = (page - 1) * limit;
+        // pagination is done by the mongoose library so we don't need to do it here 
+        this.query = this.query.skip(skip).limit(limit);
+        return this;
+    }
 }
 
 module.exports = ApiFeatures;
