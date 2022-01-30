@@ -1,6 +1,7 @@
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const User = require("../models/userModels");
+const sendToken = require("../utils/jwtTokens");
 
 // register user
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -15,10 +16,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     
     const token = user.getJWTToken();
 
-    res.status(201).json({
-        success: true,
-        token,
-    });
+    sendToken(user, 201, res);
 }); 
 
 // login User
@@ -43,9 +41,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
     const token = user.getJWTToken();
 
-    res.status(200).json({
-        success: true,
-        token,
-    });
+    sendToken(user, 200, res); // send token to the user
 
 });
