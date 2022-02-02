@@ -135,4 +135,14 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
     // send response
     sendToken(user, 200, res);
+});
+
+// Get User Details
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("-password");
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
 })
