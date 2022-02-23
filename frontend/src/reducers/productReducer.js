@@ -8,8 +8,8 @@ import {
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
-export const productReducer = (state = { products: [] }, actions) => {
-  switch (actions.type) {
+export const productReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
     case ALL_PRODUCTS_REQUEST:
       return {
         loading: true,
@@ -18,13 +18,14 @@ export const productReducer = (state = { products: [] }, actions) => {
     case ALL_PRODUCTS_SUCCESS:
       return {
         loading: false,
-        products: actions.payload.products,
-        productsCount: actions.payload.productsCount,
+        products: action.payload.products,
+        productsCount: action.payload.productsCount,
+        resultPerPage: action.payload.resultPerPage,
       };
     case ALL_PRODUCTS_FAIL:
       return {
         loading: false,
-        error: actions.payload,
+        error: action.payload,
       };
     case CLEAR_ERRORS:
       return {
@@ -36,8 +37,8 @@ export const productReducer = (state = { products: [] }, actions) => {
   }
 };
 
-export const productDetailsReducer = (state = { product: {} }, actions) => {
-  switch (actions.type) {
+export const productDetailsReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
     case PRODUCTS_DETAILS_REQUEST:
       return {
         loading: true,
@@ -46,12 +47,12 @@ export const productDetailsReducer = (state = { product: {} }, actions) => {
     case PRODUCTS_DETAILS_SUCCESS:
       return {
         loading: false,
-        product: actions.payload,
+        product: action.payload,
       };
     case PRODUCTS_DETAILS_FAIL:
       return {
         loading: false,
-        error: actions.payload,
+        error: action.payload,
       };
     case CLEAR_ERRORS:
       return {
