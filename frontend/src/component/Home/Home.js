@@ -12,7 +12,7 @@ import "./Home.css";
 const Home = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount } = useSelector(
+  const { loading, error, products } = useSelector(
     (state) => state.products
   );
 

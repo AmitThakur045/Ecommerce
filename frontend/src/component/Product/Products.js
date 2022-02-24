@@ -6,7 +6,9 @@ import ProductCard from "../Home/ProductCard";
 import Pagination from "react-js-pagination";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
+import { useAlert } from "react-alert";
 import "./Products.css";
+import MetaData from "../layout/MetaData";
 
 const categories = [
   "Laptop",
@@ -16,10 +18,11 @@ const categories = [
   "Attire",
   "Camera",
   "SmartPhone",
-]
+];
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
+  const alert = useAlert();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
@@ -47,8 +50,13 @@ const Products = ({ match }) => {
   };
 
   useEffect(() => {
+    if(error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
     dispatch(getProduct(keyword, currentPage, price, category, ratings));
-  }, [dispatch, keyword, currentPage, price, category, ratings]);
+  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
 
   let count = filteredProductsCount;
 
@@ -58,6 +66,7 @@ const Products = ({ match }) => {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title="PRODUCTS -- ECOMMERCE" />
           <h2 className="productsHeading">Products</h2>
           <div className="products">
             {products &&
