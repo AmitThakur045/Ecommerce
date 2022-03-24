@@ -13,7 +13,7 @@ import { Country, State } from "country-state-city";
 import { useAlert } from "react-alert";
 import CheckoutSteps from "./CheckoutSteps.js";
 
-const Shipping = () => {
+const Shipping = ({ history }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { shippingInfo } = useSelector((state) => state.cart);
@@ -25,7 +25,26 @@ const Shipping = () => {
   const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
   const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
 
-  const shippingSubmit = () => {};
+  const shippingSubmit = (e) => {
+    e.preventDefault();
+
+    if (phoneNo.length < 10 || phoneNo.length > 10) {
+      alert.error("Phone number length must be 10 digits");
+      return;
+    }
+
+    dispatch(
+      saveShippingInfo({
+        address,
+        city,
+        state,
+        country,
+        pinCode,
+        phoneNo,
+      })
+    );
+    history.push("/order/confirm");
+  };
 
   return (
     <Fragment>
